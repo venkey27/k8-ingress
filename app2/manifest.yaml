@@ -1,0 +1,78 @@
+# ingress exposes our pod running in k8 to outside world through load balancer, listener, rules and targetgroups.. 
+# ingress contacts aws loadbalancer controller (nothing but ingress controller drivers) to create the AWS resources
+
+# deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-2
+  # labels related to deployment resource
+  labels:
+    app: app-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-2
+  # Pod
+  template:
+    metadata:
+      labels:
+        app: app-2
+    spec:
+      containers:
+      - name: app-2
+        image: venkey57/app2
+        ports:
+        - containerPort: 80
+---
+# service
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-2
+  # servicer labels
+  labels:
+    app: app-2
+spec:
+  # Service uses the below labels to select the pods
+  selector:
+    app: app-2
+  ports:
+    - protocol: TCP
+      port: 80 # service port
+      targetPort: 80 # container port
+---
+
+# ingress exposes our pod running in k8 to outside world through load balancer, listener, rules and targetgroups.. 
+# ingress contacts aws loadbalancer controller (nothing but ingress controller drivers) to create the AWS resources
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress # ingress resource
+metadata:
+  name: app-2
+  annotations: # k8 want to get resources from outside then we use annotations
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:388204354188:certificate/ee3857eb-fabb-4eca-9ee2-48cc1e4b0ed0
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/tags: Environment=dev,Team=test
+    #alb.ingress.kubernetes.io/group.name: roboshop
+spec:
+  ingressClassName: alb
+  rules:
+  - host: "app2.exptrack.shop"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: app-2
+            port:
+              number: 80 # listener
+
+# ALB -> Listener -> Rule -> Target group -> VM(instance)
+# ALB -> Listener -> Rule -> Target group -> pod(ip addresses) -------> this is what ingress resource uses
+
+# ALB can read the URL and take the decision. We can configure multiple rules and respective target groups
