@@ -62,5 +62,5 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      name: app1
-      port: 80
+    -  name: app1
+       port: 80
