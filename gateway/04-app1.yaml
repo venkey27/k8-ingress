@@ -55,6 +55,7 @@ spec:
   - "app1.exptrack.shop"
   parentRefs:              # attach to the admin's Gateway listener
   - kind: Gateway
+    name: roboshop
     namespace : roboshop 
     sectionName: https
   rules:
