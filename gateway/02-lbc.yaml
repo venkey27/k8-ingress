@@ -1,0 +1,16 @@
+# on gateway-class we decided to use alb (application load balancer here )
+# so here, we are configuring the application load balancer 
+apiVersion: gateway.k8s.aws/v1
+kind: LoadBalancerConfiguration
+metadata:
+  name: roboshop-alb
+  namespace: roboshop
+spec:
+  scheme: internet-facing
+  ipAddressType: ipv4
+  listenerConfigurations:
+  - protocolPort: HTTPS:443
+    certificates:
+    - arn:aws:acm:us-east-1:388204354188:certificate/ee3857eb-fabb-4eca-9ee2-48cc1e4b0ed0
+
+# We are going to use ALB, Listener

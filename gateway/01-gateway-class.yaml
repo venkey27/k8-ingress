@@ -1,0 +1,11 @@
+
+# here we are telling what kind oof loadbalancer we are using 
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: aws-alb  # we are using application load balancer here 
+spec:
+  controllerName: gateway.k8s.aws/alb
+
+# We are going to use ALB
+# https://aws.amazon.com/blogs/networking-and-content-delivery/streamline-your-amazon-eks-deployments-with-gateway-api-support-for-aws-load-balancer-controller-and-amazon-vpc-lattice/

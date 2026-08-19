@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: roboshop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+      - name: app1
+        image: joindevops/app1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1
+  namespace: roboshop
+spec:
+  selector:
+    app: app1
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# 05 TargetGroupConfiguration — target the pods by IP
+apiVersion: gateway.k8s.aws/v1beta1
+kind: TargetGroupConfiguration
+metadata:
+  name: app1
+  namespace: roboshop
+spec:
+  targetReference:
+    name: app1
+    kind: Service
+  defaultConfiguration:
+    targetType: ip
+---
+# 06 HTTPRoute — "app1.daws90s.shop → the app1 Service"
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app1
+  namespace: roboshop
+spec:
+  hostnames:
+  - "app1.exptrack.shop"
+  parentRefs:              # attach to the admin's Gateway listener
+  - kind: Gateway
+    sectionName: https
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+      name: app1
+      port: 80

@@ -47,6 +47,7 @@ spec:
 # ingress exposes our pod running in k8 to outside world through load balancer, listener, rules and targetgroups.. 
 # ingress contacts aws loadbalancer controller (nothing but ingress controller drivers) to create the AWS resources
 
+#ingress resource connects with AWS LoadBalancer Controller that creates actual ALB..
 apiVersion: networking.k8s.io/v1
 kind: Ingress # ingress resource
 metadata:
