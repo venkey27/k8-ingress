@@ -1,0 +1,25 @@
+# HTTPRoute (06-http-route.yaml): Creates the actual link between the Load Balancer listener and the backend Kubernetes Service (app2).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app2
+  namespace: roboshop
+spec:
+  hostnames:
+  - app2.exptrack.shop  # if someone hitting app2.exptrack.shop,  we are giving gateway reference , nothing but load balancer and listeners
+  parentRefs:                                      
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: roboshop
+    sectionName: https
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: app2
+      port: 80
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
