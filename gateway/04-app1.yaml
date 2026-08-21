@@ -53,7 +53,7 @@ metadata:
   namespace: roboshop
 spec:
   hostnames:
-  - app1.daws90s.shop
+  - app1.exptrack.shop
   parentRefs:              # attach to the admin's Gateway listener
   - kind: Gateway
     name: roboshop
