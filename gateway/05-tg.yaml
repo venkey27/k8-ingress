@@ -1,3 +1,4 @@
+# target group configuration -> creates the target group and target type
 # TargetGroupConfiguration (05-tg.yaml): Defines how a target group should behave (e.g., targetType: ip, health check path) if created for a
  # service, but it does not create one on its own.
 apiVersion: gateway.k8s.aws/v1

@@ -1,4 +1,4 @@
-
+# 1. gateway class -> tell k8 which LB it is ALB/NLB
 # here we are telling what kind oof loadbalancer we are using 
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass

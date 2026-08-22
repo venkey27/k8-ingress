@@ -1,3 +1,4 @@
+# http route -> adding the routing rule to listeners
 # HTTPRoute (06-http-route.yaml): Creates the actual link between the Load Balancer listener and the backend Kubernetes Service (app1).
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

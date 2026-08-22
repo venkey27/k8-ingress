@@ -1,3 +1,4 @@
+# LoadBalancerConfiguration -> HTTP/HTTPS, certificates
 # on gateway-class we decided to use alb (application load balancer here )
 # so here, we are configuring the application load balancer 
 apiVersion: gateway.k8s.aws/v1
